@@ -28,9 +28,6 @@ ui <- fluidPage(
 
     br(), br(), br(),  br(), br(),
     br(), br(), br(),  br(), br(),
-    br(), br(), br(),  br(), br(),
-    
-    br(), br(), br(),  br(), br(),
     
     checkboxGroupInput("checkgroup", 
                        h3("구 선택"), 
@@ -64,6 +61,7 @@ ui <- fluidPage(
 
   mainPanel(
     plotOutput('plot1', height = 600, width = 700),
+    br(), br(), br(), br(),
     br(), br(), br(), br(),
     br(), br(), br(), br(),
     plotOutput("plot2", height = 600, width = 700)
@@ -114,12 +112,47 @@ server <- function(input, output){
   })
   
   output$plot2 <- renderPlot({
-    selectseouldt() %>% draw_map()
+    selectseouldt() %>% 
+      ggplot() + 
+      geom_polygon(aes(fill = 시가총액, 
+                       x = long, 
+                       y = lat, 
+                       group = group),
+                   color = "black",
+                   size = 1.1, 
+                   alpha = 0.8) +
+      scale_fill_gradient2(name = "시가총액(조)",
+                           midpoint = median(selectseouldt()$시가총액) %>% round(-1),
+                           low = "skyblue",
+                           mid = "#FFEBF5",
+                           high = "#FF6565") +
+      scale_color_gradient2(name = "시가총액(조)",
+                            midpoint = median(selectseouldt()$시가총액) %>% round(-1),
+                            low = "skyblue",
+                            mid = "#FFEBF5",
+                            high = "#FF6565") +
+      labs( title = "서울시 시가총액", subtitle="서울시 건물 시가총액", x =NULL, y = NULL) +
+      theme(
+        text = element_text(color = "#22211d", face = "bold"), 
+        plot.background = element_rect(fill = "#f5f5f4", color = "black", size = 1.5), 
+        panel.background = element_rect(fill = "#f5f5f4", color = NA), 
+        legend.background = element_rect(fill = "#f5f5f4", color = NA),
+        plot.title = element_text(size= 22, 
+                                  hjust=0.5, 
+                                  color = "#4e4d47", 
+                                  margin = margin(b = -0.1, t = 0.4, l = 2, unit = "cm")),
+        plot.subtitle = element_text(size= 13, 
+                                     hjust=0.5, 
+                                     color = "#4e4d47", 
+                                     margin = margin(b = -0.1, t = 0.4, l = 2, unit = "cm")),
+        axis.ticks = element_blank(),
+        axis.text = element_blank(),
+        panel.grid = element_blank(),
+        legend.position = c(0.2, 0.86))
     })
   
 
 }
-
 # Run app
 shinyApp(ui, server)
 
