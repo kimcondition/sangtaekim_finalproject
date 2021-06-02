@@ -24,7 +24,8 @@ ui <- fluidPage(
     selectInput('gu', '구', gu, selected = gu[[1]]),
     checkboxInput("log_t",
                   label = "로그변환", value = FALSE),
-    img(src = "map.gif", height = 200, width = 200),
+    HTML('<center><img src = "map.gif", height = 500, width = 500></center>'),
+
     br(), br(), br(),  br(), br(),
     br(), br(), br(),  br(), br(),
     br(), br(), br(),  br(), br(),
