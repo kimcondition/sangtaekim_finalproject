@@ -20,6 +20,8 @@ ui <- fluidPage(
   titlePanel("서울시 부동산 요인 분석"),
   
   sidebarPanel(
+    helpText("거래단가 X 설명변수 회귀적합"),
+    
     selectInput('xcol', '설명변수', vars),
     selectInput('gu', '구', gu, selected = gu[[1]]),
     checkboxInput("log_t",
@@ -28,6 +30,8 @@ ui <- fluidPage(
 
     br(), br(), br(),  br(), br(),
     br(), br(), br(),  br(), br(),
+    
+    helpText("서울시 구별 시가총액(체크 해제 시 제외)"),
     
     checkboxGroupInput("checkgroup", 
                        h3("구 선택"), 
